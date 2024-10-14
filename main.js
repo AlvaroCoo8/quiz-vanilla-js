@@ -12,17 +12,48 @@ const btnNext = document.createElement("button");
 const respuestas = ["London", "Berlin", "Paris", "Madrid"]
 
 const textTitulo = "Quiz Question"
-const textSubtitulo = "What is the capital of France?"
+// const textSubtitulo = "What is the capital of France?"
+const textPreguntas = ["What is the capital of France?", "What is the longest river in the world?", "Who wrote Romeo and Juliet?", "How many planets are there in our solar system?"]
 const textBtnPrevius = "Previus"
 const textBtnNext = "Next"
 
+
+let cambiarPregunta = (text) => {
+
+    if(text == textBtnNext){
+        if(numPregunta < textPreguntas.length - 1 )
+        numPregunta++;
+        btnPrevius.disabled = false
+        p.textContent = textPreguntas[numPregunta]
+        console.log("Num pregunta: " + numPregunta)
+    } else {
+        if(numPregunta > 0){
+            numPregunta--;
+            btnNext.disabled = false
+            p.textContent = textPreguntas[numPregunta]
+            console.log("Num pregunta: " + numPregunta)
+        }
+    }
+
+    if(numPregunta <= 0){
+        btnPrevius.disabled = true
+    } 
+
+    if(numPregunta >= textPreguntas.length -1){
+        btnNext.disabled = true
+    }
+
+}
+
+let numPregunta = 0
 
 container.classList.add("container")
 
 h2.textContent = textTitulo
 container.appendChild(h2)
 
-p.textContent = textSubtitulo
+// p.textContent = textSubtitulo
+p.textContent = textPreguntas[numPregunta]
 container.appendChild(p)
 
 ul.classList.add("container-answers");
@@ -42,13 +73,21 @@ respuestas.forEach(i => {
 botones.classList.add("container-footer")
 
 btnPrevius.classList.add("footer-btn")
+btnPrevius.disabled  = true
 btnPrevius.textContent = textBtnPrevius
+// btnPrevius.addEventListener("click", cambiarPregunta(textBtnPrevius))
+btnPrevius.addEventListener("click", () => cambiarPregunta(textBtnPrevius))
 botones.appendChild(btnPrevius)
 
 btnNext.classList.add("footer-btn")
 btnNext.textContent = textBtnNext
+// btnNext.addEventListener("click", cambiarPregunta(textBtnNext))      // DE ESTA FORMA NOO HAY QUE PONERLE LOS () =>
+btnNext.addEventListener("click", () => cambiarPregunta(textBtnNext))
 botones.appendChild(btnNext)
 
 container.appendChild(botones)
 
 body.appendChild(container)
+
+
+
