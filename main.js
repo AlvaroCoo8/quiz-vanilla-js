@@ -9,10 +9,7 @@ const botones = document.createElement("div");
 const btnPrevius = document.createElement("button");
 const btnNext = document.createElement("button");
 
-const respuestas = ["London", "Berlin", "Paris", "Madrid"]
-
 const textTitulo = "Quiz Question"
-// const textSubtitulo = "What is the capital of France?"
 const textPreguntas = ["What is the capital of France?", "What is the longest river in the world?", "Who wrote Romeo and Juliet?", "How many planets are there in our solar system?"]
 const textBtnPrevius = "Previus"
 const textBtnNext = "Next"
@@ -52,7 +49,6 @@ container.classList.add("container")
 h2.textContent = textTitulo
 container.appendChild(h2)
 
-// p.textContent = textSubtitulo
 p.textContent = textPreguntas[numPregunta]
 container.appendChild(p)
 
@@ -88,6 +84,3 @@ botones.appendChild(btnNext)
 container.appendChild(botones)
 
 body.appendChild(container)
-
-
-
