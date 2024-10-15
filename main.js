@@ -11,7 +11,12 @@ const btnNext = document.createElement("button");
 
 const textTitulo = "Quiz Question"
 const textPreguntas = ["What is the capital of France?", "What is the longest river in the world?", "Who wrote Romeo and Juliet?", "How many planets are there in our solar system?"]
-const respuestas = ["London", "Berlin", "Paris", "Madrid"]
+const respuestas = [
+    ["London", "Berlin", "Paris", "Madrid"],
+    ["Amazonas", "Nilo", "Yangtsé", "Miño"],
+    ["Jane Austen", "Cervantes", "William Shakerpeare", "Charles Dickens"],
+    ["7", "8", "9", "10"]
+]
 const textBtnPrevius = "Previus"
 const textBtnNext = "Next"
 
@@ -25,6 +30,23 @@ let cambiarPregunta = (text) => {
 
     p.textContent = textPreguntas[numPregunta];
     console.log("Num pregunta: " + numPregunta);
+
+    ul.innerHTML = '';
+    cambiarRespuestas(respuestas, numPregunta)
+}
+
+let cambiarRespuestas = (respuestas, numPregunta) =>{
+
+    respuestas[numPregunta].forEach(i => {
+        let liResp = document.createElement("li")
+        let btnResp = document.createElement("button")
+    
+        btnResp.classList.add("answer-btn")
+        btnResp.textContent = i
+        
+        liResp.appendChild(btnResp)
+        ul.appendChild(liResp)
+    });
 }
 
 let numPregunta = 0
@@ -40,16 +62,7 @@ container.appendChild(p)
 ul.classList.add("container-answers");
 container.appendChild(ul)
 
-respuestas.forEach(i => {
-    let liResp = document.createElement("li")
-    let btnResp = document.createElement("button")
-
-    btnResp.classList.add("answer-btn")
-    btnResp.textContent = i
-    
-    liResp.appendChild(btnResp)
-    ul.appendChild(liResp)
-});
+cambiarRespuestas(respuestas, numPregunta);
 
 botones.classList.add("container-footer")
 
