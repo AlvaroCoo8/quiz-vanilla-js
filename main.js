@@ -10,12 +10,23 @@ const btnPrevius = document.createElement("button");
 const btnNext = document.createElement("button");
 
 const textTitulo = "Quiz Question"
-const textPreguntas = ["What is the capital of France?", "What is the longest river in the world?", "Who wrote Romeo and Juliet?", "How many planets are there in our solar system?"]
-const respuestas = [
-    ["London", "Berlin", "Paris", "Madrid"],
-    ["Amazonas", "Nilo", "Yangtsé", "Miño"],
-    ["Jane Austen", "Cervantes", "William Shakerpeare", "Charles Dickens"],
-    ["7", "8", "9", "10"]
+const preguntas = [
+    {
+        pregunta: "What is the capital of France?",
+        respuestas: ["London", "Berlin", "Paris", "Madrid"]
+    },
+    {
+        pregunta: "What is the longest river in the world?",
+        respuestas: ["Amazonas", "Nilo", "Yangtsé", "Miño"]
+    },
+    {
+        pregunta: "Who wrote Romeo and Juliet?",
+        respuestas: ["Jane Austen", "Cervantes", "William Shakerpeare", "Charles Dickens"]
+    },
+    {
+        pregunta: "How many planets are there in our solar system?",
+        respuestas:  ["7", "8", "9", "10"]
+    }
 ]
 const textBtnPrevius = "Previus"
 const textBtnNext = "Next"
@@ -26,18 +37,18 @@ let cambiarPregunta = (text) => {
     (text === textBtnNext) ? numPregunta++ : numPregunta--;
 
     btnPrevius.disabled = numPregunta <= 0;
-    btnNext.disabled = numPregunta >= textPreguntas.length - 1;
+    btnNext.disabled = numPregunta >= preguntas.length - 1;
 
-    p.textContent = textPreguntas[numPregunta];
+    p.textContent = preguntas[numPregunta].pregunta;
     console.log("Num pregunta: " + numPregunta);
 
     ul.innerHTML = '';
-    cambiarRespuestas(respuestas, numPregunta)
+    cambiarRespuestas(preguntas, numPregunta)
 }
 
-let cambiarRespuestas = (respuestas, numPregunta) =>{
+let cambiarRespuestas = (preguntas, numPregunta) =>{
 
-    respuestas[numPregunta].forEach(i => {
+    preguntas[numPregunta].respuestas.forEach(i => {
         let liResp = document.createElement("li")
         let btnResp = document.createElement("button")
     
@@ -56,13 +67,13 @@ container.classList.add("container")
 h2.textContent = textTitulo
 container.appendChild(h2)
 
-p.textContent = textPreguntas[numPregunta]
+p.textContent = preguntas[numPregunta].pregunta
 container.appendChild(p)
 
 ul.classList.add("container-answers");
 container.appendChild(ul)
 
-cambiarRespuestas(respuestas, numPregunta);
+cambiarRespuestas(preguntas, numPregunta);
 
 botones.classList.add("container-footer")
 
