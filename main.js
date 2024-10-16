@@ -43,6 +43,7 @@ let cambiarPregunta = (text) => {
     console.log("Num pregunta: " + numPregunta);
 
     ul.innerHTML = '';
+    respuestaSeleccionada = null
     cambiarRespuestas(preguntas, numPregunta)
 }
 
@@ -54,13 +55,29 @@ let cambiarRespuestas = (preguntas, numPregunta) =>{
     
         btnResp.classList.add("answer-btn")
         btnResp.textContent = i
+        btnResp.addEventListener("click", () => seleccionarRespuesta(btnResp))
         
         liResp.appendChild(btnResp)
         ul.appendChild(liResp)
     });
 }
 
+let seleccionarRespuesta = (respuesta) => {    
+    
+    if(respuesta != respuestaSeleccionada){
+        respuesta.style.backgroundColor = "#3CB371"
+        
+        if(respuestaSeleccionada != null){
+            respuestaSeleccionada.style.removeProperty("background-color");
+        }
+
+        respuestaSeleccionada = respuesta
+    }
+
+}
+
 let numPregunta = 0
+let respuestaSeleccionada = null
 
 container.classList.add("container")
 
