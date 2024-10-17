@@ -8,32 +8,38 @@ const ul = document.createElement("ul");
 const botones = document.createElement("div");
 const btnPrevius = document.createElement("button");
 const btnNext = document.createElement("button");
+const btnCheck = document.createElement("button");
 
 const textTitulo = "Quiz Question"
 const preguntas = [
     {
         pregunta: "What is the capital of France?",
         respuestas: ["London", "Berlin", "Paris", "Madrid"],
+        respuestaCorrecta: "Paris", 
         seleccion: null
     },
     {
         pregunta: "What is the longest river in the world?",
         respuestas: ["Amazonas", "Nilo", "Yangtsé", "Miño"],
+        respuestaCorrecta: "Nilo", 
         seleccion: null
     },
     {
         pregunta: "Who wrote Romeo and Juliet?",
         respuestas: ["Jane Austen", "Cervantes", "William Shakerpeare", "Charles Dickens"],
+        respuestaCorrecta: "William Shakerpeare",
         seleccion: null
     },
     {
         pregunta: "How many planets are there in our solar system?",
         respuestas:  ["7", "8", "9", "10"],
+        respuestaCorrecta: "8", 
         seleccion: null
     }
 ]
 const textBtnPrevius = "Previus"
 const textBtnNext = "Next"
+const textBtnCheck = "Check"
 
 let cambiarPregunta = (text) => {
 
@@ -78,10 +84,36 @@ let seleccionarRespuesta = (respuesta) => {
             const btnAnteriorSeleccion = body.querySelector("#btn-" + idBoton)
             btnAnteriorSeleccion.style.removeProperty("background-color");
         }
-
+        
         preguntas[numPregunta].seleccion = respuesta.textContent
         respuesta.style.backgroundColor = "#3CB371"
     }
+        
+    let preguntasSeleccionadas = 0
+
+    preguntas.forEach(element => {
+        if(element.seleccion != null){
+            preguntasSeleccionadas++;
+        }
+    });
+    
+    if(preguntasSeleccionadas == preguntas.length){
+        btnCheck.disabled = false
+    }
+
+}
+
+let comprobarRespuestas = (respuesta) => {    
+    
+    let aciertos = 0
+
+    preguntas.forEach(element => {
+        if(element.seleccion == element.respuestaCorrecta) 
+            aciertos++;
+    });
+
+    alert(aciertos + " aciertos de " + preguntas.length)
+
 
 }
 
@@ -113,6 +145,12 @@ btnNext.textContent = textBtnNext
 // btnNext.addEventListener("click", cambiarPregunta(textBtnNext))      // DE ESTA FORMA NOO, HAY QUE PONERLE LOS () =>
 btnNext.addEventListener("click", () => cambiarPregunta(textBtnNext))
 botones.appendChild(btnNext)
+
+btnCheck.classList.add("footer-btn")
+btnCheck.disabled  = true
+btnCheck.textContent = textBtnCheck
+btnCheck.addEventListener("click", () => comprobarRespuestas())
+botones.appendChild(btnCheck)
 
 container.appendChild(botones)
 
