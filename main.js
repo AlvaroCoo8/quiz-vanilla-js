@@ -1,4 +1,6 @@
 import './style.css'
+import * as domHelper from "./domHelper";
+import * as mockData from "./mockData";
 
 const body = document.querySelector("body");
 const container = document.createElement("div")
@@ -11,32 +13,6 @@ const btnNext = document.createElement("button");
 const btnCheck = document.createElement("button");
 
 const textTitulo = "Quiz Question"
-const preguntas = [
-    {
-        pregunta: "What is the capital of France?",
-        respuestas: ["London", "Berlin", "Paris", "Madrid"],
-        respuestaCorrecta: "Paris", 
-        seleccion: null
-    },
-    {
-        pregunta: "What is the longest river in the world?",
-        respuestas: ["Amazonas", "Nilo", "Yangtsé", "Miño"],
-        respuestaCorrecta: "Nilo", 
-        seleccion: null
-    },
-    {
-        pregunta: "Who wrote Romeo and Juliet?",
-        respuestas: ["Jane Austen", "Cervantes", "William Shakerpeare", "Charles Dickens"],
-        respuestaCorrecta: "William Shakerpeare",
-        seleccion: null
-    },
-    {
-        pregunta: "How many planets are there in our solar system?",
-        respuestas:  ["7", "8", "9", "10"],
-        respuestaCorrecta: "8", 
-        seleccion: null
-    }
-]
 const textBtnPrevius = "Previus"
 const textBtnNext = "Next"
 const textBtnCheck = "Check"
@@ -46,10 +22,10 @@ let cambiarPregunta = (text) => {
     (text === textBtnNext) ? numPregunta++ : numPregunta--;
 
     btnPrevius.disabled = numPregunta <= 0;
-    btnNext.disabled = numPregunta >= preguntas.length - 1;
+    btnNext.disabled = numPregunta >= mockData.preguntas.length - 1;
 
     ul.innerHTML = '';
-    cambiarRespuestas(preguntas, numPregunta)
+    cambiarRespuestas(mockData.preguntas, numPregunta)
 }
 
 let cambiarRespuestas = (preguntas, numPregunta) =>{
@@ -77,27 +53,27 @@ let cambiarRespuestas = (preguntas, numPregunta) =>{
 
 let seleccionarRespuesta = (respuesta) => {    
     
-    if(respuesta.textContent != preguntas[numPregunta].seleccion){
+    if(respuesta.textContent != mockData.preguntas[numPregunta].seleccion){
         
-        if(preguntas[numPregunta].seleccion != null){
-            let idBoton = preguntas[numPregunta].seleccion.replace(/ /g, '-');
+        if(mockData.preguntas[numPregunta].seleccion != null){
+            let idBoton = mockData.preguntas[numPregunta].seleccion.replace(/ /g, '-');
             const btnAnteriorSeleccion = body.querySelector("#btn-" + idBoton)
             btnAnteriorSeleccion.style.removeProperty("background-color");
         }
         
-        preguntas[numPregunta].seleccion = respuesta.textContent
+        mockData.preguntas[numPregunta].seleccion = respuesta.textContent
         respuesta.style.backgroundColor = "#3CB371"
     }
         
     let preguntasSeleccionadas = 0
 
-    preguntas.forEach(element => {
+    mockData.preguntas.forEach(element => {
         if(element.seleccion != null){
             preguntasSeleccionadas++;
         }
     });
     
-    if(preguntasSeleccionadas == preguntas.length){
+    if(preguntasSeleccionadas == mockData.preguntas.length){
         btnCheck.disabled = false
     }
 
@@ -107,58 +83,17 @@ let comprobarRespuestas = (respuesta) => {
     
     let aciertos = 0
 
-    preguntas.forEach(element => {
+    mockData.preguntas.forEach(element => {
         if(element.seleccion == element.respuestaCorrecta) 
             aciertos++;
     });
 
-    let modal = crearModal("Result", aciertos + " aciertos de " + preguntas.length);
+    let modal = domHelper.crearModal("Result", aciertos + " aciertos de " + mockData.preguntas.length);
 
     modal.style.visibility = "visible"  
     modal.style.opacity = 1
 }
 
-let crearModal = (tittle, text) => {
-
-    const modal = document.createElement("div")
-    modal.classList.add("modal")
-    
-    const modalContent = document.createElement("div")
-    modalContent.classList.add("modal-content")
-    
-    const closeModalBtn = document.createElement("span")
-    closeModalBtn.classList.add("modal-close")
-    closeModalBtn.innerHTML = '&times;'
-    modalContent.appendChild(closeModalBtn)
-    
-    closeModalBtn.addEventListener("click", function(){
-        modal.style.visibility = "hidden";
-        modal.style.opacity = "0";
-    })
-    
-    const modalTitle = document.createElement("h2")
-    modalTitle.textContent = tittle
-    modalContent.appendChild(modalTitle)
-
-    const modalHR = document.createElement("hr")
-    modalContent.appendChild(modalHR)
-    
-    const modalParagraph = document.createElement("p")
-    modalParagraph.textContent = text
-    modalContent.appendChild(modalParagraph)
-    
-    modal.appendChild(modalContent)
-    document.body.appendChild(modal)
-
-    window.addEventListener("click", function(event){
-        if (event.target === modal) {
-            modal.style.visibility = "hidden";
-            modal.style.opacity = "0";
-        }
-    })
-
-    return modal;
-}
 
 let numPregunta = 0
 
@@ -172,7 +107,7 @@ container.appendChild(p)
 ul.classList.add("container-answers");
 container.appendChild(ul)
 
-cambiarRespuestas(preguntas, numPregunta);
+cambiarRespuestas(mockData.preguntas, numPregunta);
 
 botones.classList.add("container-footer")
 
